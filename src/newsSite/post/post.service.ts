@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 
 import { Post } from '../models/post.model';
+import { User } from '../models/user.model';
+import { Tag } from '../models/tag.model';
 
 @Injectable()
 export class PostService {
@@ -12,7 +14,18 @@ export class PostService {
 
   getAllPosts(): Promise<Post[]> {
     return this.postModel.findAll({
-      order: [['id', 'ASC']],
+      include: [
+        { model: User, attributes: ['login'] },
+        {
+          model: Tag,
+          attributes: ['id', 'name'],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+      attributes: ['id', 'header', 'description', 'image', 'created_at'],
+      order: [['created_at', 'ASC']],
     });
   }
 }

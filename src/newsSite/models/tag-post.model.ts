@@ -13,11 +13,11 @@ export class TagPost extends Model {
   @Column({
     allowNull: false,
   })
-  postID: number;
+  postId: number;
 
   @ForeignKey(() => Tag)
   @Column({
     allowNull: false,
   })
-  tagID: number;
+  tagId: number;
 }
