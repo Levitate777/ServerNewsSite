@@ -21,7 +21,7 @@ export class Post extends Model {
   @Column({
     allowNull: false,
   })
-  userID: number;
+  userId: number;
 
   @Column({
     allowNull: false,
