@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Dialect } from 'sequelize';
 
 import { Dialect } from 'sequelize';
 
-import { PostModule } from './newsSite/post/post.module';
-import { Post } from './newsSite/models/post.model';
-import { User } from './newsSite/models/user.model';
-import { Tag } from './newsSite/models/tag.model';
-import { TagPost } from './newsSite/models/tag-post.model';
+import { PostModule } from './post/post.module';
+import { Post } from './models/post.model';
+import { User } from './models/user.model';
+import { Tag } from './models/tag.model';
+import { TagPost } from './models/tag-post.model';
 
 @Module({
   imports: [
