@@ -24,8 +24,8 @@ export class PostService {
           },
         },
       ],
-      attributes: ['id', 'header', 'description', 'image', 'created_at'],
-      order: [['created_at', 'ASC']],
+      attributes: ['id', 'header', 'description', 'image', 'createdAt'],
+      order: [['createdAt', 'ASC']],
     });
   }
 }
