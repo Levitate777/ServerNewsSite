@@ -9,6 +9,9 @@ import { Post } from './models/post.model';
 import { User } from './models/user.model';
 import { Tag } from './models/tag.model';
 import { TagPost } from './models/tag-post.model';
+import { UserModule } from './ user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { TokenModule } from './token/token.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { TagPost } from './models/tag-post.model';
       inject: [ConfigService],
     }),
     PostModule,
+    UserModule,
+    AuthModule,
+    TokenModule,
   ],
 })
 export class AppModule {}

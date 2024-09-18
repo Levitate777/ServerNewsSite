@@ -17,7 +17,10 @@ export class UserController {
     @Body('login') login: string,
     @Body('password') password: string,
     @Body('email') email: string,
-  ): Promise<User> {
+  ): Promise<{
+    user: User;
+    accessToken: string;
+  }> {
     return this.userService.registerUser(login, password, email);
   }
 }

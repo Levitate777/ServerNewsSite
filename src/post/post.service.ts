@@ -15,7 +15,7 @@ export class PostService {
   getAllPosts(): Promise<Post[]> {
     return this.postModel.findAll({
       include: [
-        { model: User, attributes: ['login'] },
+        { model: User, attributes: ['login', 'avatar'] },
         {
           model: Tag,
           attributes: ['id', 'name'],

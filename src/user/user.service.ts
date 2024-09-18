@@ -32,7 +32,10 @@ export class UserService {
     login: string,
     pass: string,
     email: string,
-  ): Promise<User> {
+  ): Promise<{
+    user: User;
+    accessToken: string;
+  }> {
     const cryptPassword = await bcrypt.hash(pass, saltOrRounds);
     const findUser = await this.userModel.findOne({
       where: { login: login, email: email },
@@ -46,6 +49,7 @@ export class UserService {
       email: email,
     });
     const { password, createdAt, updatedAt, ...user } = newUser.toJSON();
-    return user;
+    const accessToken = await this.tokenService.generateJwtToken(user);
+    return { user, accessToken };
   }
 }
