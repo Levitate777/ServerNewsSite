@@ -11,16 +11,4 @@ export class UserController {
   findOne(@Param('login') login: string): Promise<User | undefined> {
     return this.userService.findOne(login);
   }
-
-  @Post()
-  registerUser(
-    @Body('login') login: string,
-    @Body('password') password: string,
-    @Body('email') email: string,
-  ): Promise<{
-    user: User;
-    accessToken: string;
-  }> {
-    return this.userService.registerUser(login, password, email);
-  }
 }
