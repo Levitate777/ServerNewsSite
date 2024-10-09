@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { ValidateIf, IsNotEmpty, IsEmail, IsString, Length, Matches, IsStrongPassword } from "class-validator"
 
-export class UserDto {
+export class CreateUserDto {
 	@Length(1, 255)
 	@Transform(({ value }) => value.replace(/\s+/g, ' ').trim())
   @ValidateIf((o) => o.login !== undefined)
