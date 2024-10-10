@@ -12,6 +12,8 @@ import { TagPost } from './models/tag-post.model';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TokenModule } from './token/token.module';
+import { TagModule } from './tag/tag.module';
+import { TagPostModule } from './tagPost/tagPost.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { TokenModule } from './token/token.module';
     UserModule,
     AuthModule,
     TokenModule,
+    TagModule,
+    TagPostModule,
   ],
 })
 export class AppModule {}
