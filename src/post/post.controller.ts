@@ -1,8 +1,8 @@
 import {
-  Body,
   Controller,
   Get,
   ParseIntPipe,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
@@ -21,9 +21,7 @@ export class PostController {
 
   @UseGuards(JwtAuthguard)
   @Get('byUser')
-  getPostsByUser(@Body('userId', ParseIntPipe) userId: number): Promise<Post[]> {
-    console.log(typeof userId);
-    
+  getPostsByUser(@Query('userId', ParseIntPipe) userId: number): Promise<Post[]> {
     return this.postService.getPostsByUser(userId);
   }
 }
