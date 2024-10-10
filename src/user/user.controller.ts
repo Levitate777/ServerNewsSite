@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Req,
   UploadedFile,
   UseGuards,
 } from '@nestjs/common';
@@ -13,9 +14,17 @@ import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthguard } from '../guards/jwt-guard';
 
+type RequestWithUser = Request & { user: User };
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @UseGuards(JwtAuthguard)
+  @Get('whoIsThis')
+  whoIsThis(@Req() request: RequestWithUser): User {
+    return request.user['user'];
+  }
 
   @Get(':id')
   findOne(@Param('id') id: number): Promise<User | undefined> {
