@@ -28,4 +28,22 @@ export class PostService {
       order: [['createdAt', 'ASC']],
     });
   }
+
+  getPostsByUser(userId: number): Promise<Post[]> {
+    return this.postModel.findAll({
+      include: [
+        { model: User, attributes: ['login', 'avatar'] },
+        {
+          model: Tag,
+          attributes: ['id', 'name'],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+      where: {userId: userId},
+      attributes: ['id', 'header', 'description', 'image', 'createdAt'],
+      order: [['createdAt', 'ASC']],
+    });
+  }
 }
