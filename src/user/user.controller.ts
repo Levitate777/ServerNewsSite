@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UploadedFile,
+  UseGuards,
+} from '@nestjs/common';
 
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
@@ -19,7 +27,13 @@ export class UserController {
   updateUser(
     @Body('id') id: number, 
     @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() avatar: Express.Multer.File,
   ): Promise<User> {
-    return this.userService.updateUser(id, updateUserDto.login, updateUserDto.email);
+    return this.userService.updateUser(
+      id,
+      updateUserDto.login,
+      updateUserDto.email,
+      avatar,
+    );
   }
 }
