@@ -10,8 +10,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
 
 import { User } from '../models/user.model';
-import { Post } from 'src/models/post.model';
-import { Tag } from '../models/tag.model';
 import { TokenService } from '../token/token.service';
 
 @Injectable()
@@ -19,8 +17,6 @@ export class AuthService {
   constructor(
     @InjectModel(User)
     private readonly userModel: typeof User,
-    @InjectModel(Post)
-    private readonly postModel: typeof Post,
     private readonly tokenService: TokenService,
     private readonly configService: ConfigService,
   ) {}
@@ -31,7 +27,6 @@ export class AuthService {
   ): Promise<{
     user: User;
     accessToken: string;
-    posts: Post[];
   }> {    
     const findUser = await this.userModel.findOne({
       where: { email: email },
@@ -44,24 +39,9 @@ export class AuthService {
     if (!isMatch) {
       throw new UnauthorizedException('Wrong password');
     }
-    const posts = await this.postModel.findAll({
-      where: { userId: findUser.id},
-      include: [
-        {
-          model: Tag,
-          attributes: ['id', 'name'],
-          through: {
-            attributes: [],
-          },
-        },
-      ],
-      attributes: ['id', 'header', 'description', 'image', 'createdAt'],
-      order: [['createdAt', 'ASC']],
-    });
-    console.log(posts);
     const { password, ...user } = findUser.toJSON();
     const accessToken = await this.tokenService.generateJwtToken(user);
-    return { user, accessToken, posts };
+    return { user, accessToken };
   }
 
   async registration(
@@ -71,7 +51,6 @@ export class AuthService {
   ): Promise<{
     user: User;
     accessToken: string;
-    posts: Post[];
   }> {
     const cryptPassword = await bcrypt.hash(pass, Number(this.configService.get('SALT_ROUND')));
     const findUser = await this.userModel.findOne({
@@ -90,6 +69,6 @@ export class AuthService {
     const { password, createdAt, updatedAt, ...user } = newUser.toJSON();
     const accessToken = await this.tokenService.generateJwtToken(user);
     
-    return { user, accessToken, posts: [] };
+    return { user, accessToken };
   }
 }
