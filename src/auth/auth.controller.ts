@@ -3,6 +3,7 @@ import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { User } from '../models/user.model';
+import { Post as PostModel } from '../models/post.model';
 
 @Controller('auth')
 export class AuthController {
@@ -18,6 +19,7 @@ export class AuthController {
   registerUser(@Body() registerDto: AuthDto): Promise<{
     user: User;
     accessToken: string;
+    posts: PostModel[];
   }> {
     return this.authService.registration(registerDto.login, registerDto.password, registerDto.email);
   }

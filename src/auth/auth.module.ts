@@ -6,9 +6,10 @@ import { AuthController } from './auth.controller';
 import { User } from '../models/user.model';
 import { TokenModule } from '../token/token.module';
 import { JwtStrategy } from '../strategy/jwt.strategy';
+import { PostModule } from '../post/post.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User]), TokenModule],
+  imports: [SequelizeModule.forFeature([User]), TokenModule, PostModule],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
 })
