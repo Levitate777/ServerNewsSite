@@ -18,6 +18,14 @@ async function bootstrap() {
   ), {
     prefix: '/static/image',
   });
+  app.useStaticAssets(join(
+    __dirname,
+    '..',
+    config.get('STATIC_PATH'),
+    config.get('AVATAR_PATH'),
+  ), {
+    prefix: '/static/avatar',
+  });
   await app.listen(config.get('PORT'));
 }
 bootstrap();
