@@ -5,6 +5,7 @@ export const saveImage = async (
 	image: Express.Multer.File | undefined,
 	staticPath: string,
 	imageFolderPath: string,
+	id: string,
 ): Promise<string> => {
 	if (!image) return undefined;
 
@@ -15,6 +16,7 @@ export const saveImage = async (
 	const imagePath = join(
 		staticPath,
 		imageFolderPath,
+		id,
 		imageName,
 	);
 	const directoryPath = join(
@@ -23,6 +25,7 @@ export const saveImage = async (
 		'..',
 		staticPath,
 		imageFolderPath,
+		id,
 	);
 
 	if (
@@ -34,8 +37,6 @@ export const saveImage = async (
 	}
 
 	await fs.mkdir(directoryPath, { recursive: true });
-	console.log('directoryPath ', directoryPath);
-
 	await fs.writeFile(join(directoryPath, imageName), image.buffer);
 
 	return imagePath.replace(/\\/g, '/');
