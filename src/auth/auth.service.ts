@@ -9,8 +9,10 @@ import { InjectModel } from '@nestjs/sequelize';
 
 import * as bcrypt from 'bcrypt';
 
+import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
 import { TokenService } from '../token/token.service';
+import { PostService } from '../post/post.service';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +21,7 @@ export class AuthService {
     private readonly userModel: typeof User,
     private readonly tokenService: TokenService,
     private readonly configService: ConfigService,
+    private readonly postService: PostService,
   ) {}
 
   async login(
@@ -27,6 +30,7 @@ export class AuthService {
   ): Promise<{
     user: User;
     accessToken: string;
+    posts: Post[];
   }> {    
     const findUser = await this.userModel.findOne({
       where: { email: email },
@@ -39,9 +43,11 @@ export class AuthService {
     if (!isMatch) {
       throw new UnauthorizedException('Wrong password');
     }
+
+    const postsByUser = await this.postService.getPostsByUser(findUser.id);
     const { password, ...user } = findUser.toJSON();
     const accessToken = await this.tokenService.generateJwtToken(user);
-    return { user, accessToken };
+    return { user, accessToken, posts: postsByUser};
   }
 
   async registration(
@@ -51,6 +57,7 @@ export class AuthService {
   ): Promise<{
     user: User;
     accessToken: string;
+    posts: Post[];
   }> {
     const cryptPassword = await bcrypt.hash(pass, Number(this.configService.get('SALT_ROUND')));
     const findUser = await this.userModel.findOne({
@@ -69,6 +76,6 @@ export class AuthService {
     const { password, createdAt, updatedAt, ...user } = newUser.toJSON();
     const accessToken = await this.tokenService.generateJwtToken(user);
     
-    return { user, accessToken };
+    return { user, accessToken, posts: [] };
   }
 }
