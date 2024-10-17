@@ -11,5 +11,6 @@ import { TagPostModule } from '../tagPost/tagPost.module';
   imports: [SequelizeModule.forFeature([Post]), TagModule, TagPostModule],
   controllers: [PostController],
   providers: [PostService],
+  exports: [PostService],
 })
 export class PostModule {}

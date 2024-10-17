@@ -12,7 +12,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { PostService } from './post.service';
 import { Post as PostModel } from '../models/post.model';
-import { Tag } from '../models/tag.model';
 import { CreatePostDto } from './dto/create-post.dto';
 import { RequestWithUser } from '../user/user.controller';
 import { JwtAuthguard } from '../guards/jwt-guard';
