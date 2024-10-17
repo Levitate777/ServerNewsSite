@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 
 import { User } from '../models/user.model';
+import { Post as PostModel } from '../models/post.model';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthguard } from '../guards/jwt-guard';
@@ -21,8 +22,11 @@ export class UserController {
   
   @UseGuards(JwtAuthguard)
   @Get('whoIsThis')
-  whoIsThis(@Req() request: RequestWithUser): User {
-    return request.user['user'];
+  whoIsThis(@Req() request: RequestWithUser): Promise<{
+    user: User;
+    posts: PostModel[];
+  }> {
+    return this.userService.whoIsThis(request.user['user'].id);
   }
 
   @UseGuards(JwtAuthguard)
